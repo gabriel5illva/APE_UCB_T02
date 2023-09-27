@@ -26,8 +26,6 @@ void encondecomp(int n) {
         }
     }
 
-    printf("Nao foi possivel encontrar uma decomposicao.\n");
-
 }
 
 int main() {
