@@ -15,7 +15,7 @@ bool primo(int num) {
 
 void encondecomp(int n) {
     if (n <= 2 || n % 2 != 0) {
-        printf("Erro, o numero nao e maior que 2 e/ou nao e par.\n");
+        printf("Erro, o numero nao e maior que 2 e/ou e impar.\n");
         return;
     }
 
