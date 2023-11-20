@@ -1,0 +1,40 @@
+#include <stdio.h>
+
+#define MAX_L 100
+#define MAX_C 100
+
+int main() {
+    int L, C, P;
+    printf("Digite o numero de linhas e colunas: ");
+    scanf("%d %d", &L, &C);
+    printf("Digite o numero de pecas: ");
+    scanf("%d", &P);
+
+    int tabuleiro[MAX_L][MAX_C] = {0};  
+
+    printf("Digite as posicoes das pecas no formato Xi Yi:\n");
+    for (int i = 0; i < P; i++) {
+        int Xi, Yi;
+        scanf("%d %d", &Xi, &Yi);
+        if (Xi > 0 && Xi <= L && Yi > 0 && Yi <= C) {
+            tabuleiro[Xi - 1][Yi - 1] = 1;
+        }
+    }
+
+    int maxPBrancas = 0;
+    for (int i = 0; i < L; i++) {
+        for (int j = 0; j < C; j++) {
+            if (tabuleiro[i][j] == 0) {
+                maxPBrancas++;
+
+                if (i - 1 >= 0 && tabuleiro[i - 1][j] != 2) tabuleiro[i - 1][j] = 2;
+                if (i + 1 < L && tabuleiro[i + 1][j] != 2) tabuleiro[i + 1][j] = 2;
+                if (j - 1 >= 0 && tabuleiro[i][j - 1] != 2) tabuleiro[i][j - 1] = 2;
+                if (j + 1 < C && tabuleiro[i][j + 1] != 2) tabuleiro[i][j + 1] = 2;
+            }
+        }
+    }
+
+    printf("O maior numero possivel de pecas brancas é: %d\n", maxPBrancas);
+    return 0;
+}
