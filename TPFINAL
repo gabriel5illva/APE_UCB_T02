@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX_NOME 16
+#define NUM_RODADAS 12
+
+struct Jogador {
+    char nome[MAX_NOME];
+    int pontuacoes[NUM_RODADAS];
+    int pontuacaoFinal;
+};
+
+int compararPontuacoes(const void *a, const void *b) {
+    return (*(int *)b - *(int *)a);
+}
+
+int compararJogadores(const void *a, const void *b) {
+    const struct Jogador *jogadorA = (const struct Jogador *)a;
+    const struct Jogador *jogadorB = (const struct Jogador *)b;
+
+    if (jogadorB->pontuacaoFinal != jogadorA->pontuacaoFinal) {
+        return jogadorB->pontuacaoFinal - jogadorA->pontuacaoFinal;
+    }
+
+    return strcmp(jogadorA->nome, jogadorB->nome);
+}
+
+int somarPontuacoes(int *pontuacoes, int tamanho) {
+    qsort(pontuacoes, tamanho, sizeof(int), compararPontuacoes);
+    int soma = 0;
+    for (int i = 1; i < tamanho - 1; i++) {
+        soma += pontuacoes[i];
+    }
+    return soma;
+}
+
+int main() {
+    int J, i, j;
+    int teste = 1;
+
+    while (1) {
+        printf("Digite o numero de jogadores (0 = sair): ");
+        scanf("%d", &J);
+
+        if (J == 0) {
+            break;
+        }
+
+        if (J < 1 || J > 100) {
+            printf("Numero de jogadores invalido. Insira um valor entre 1 e 100.\n");
+            continue;
+        }
+
+        struct Jogador *jogadores = malloc(J * sizeof(struct Jogador));
+
+        if (jogadores == NULL) {
+            printf("Erro de alocacao de memoria.\n");
+            return 1;
+        }
+
+        for (i = 0; i < J; i++) {
+            printf("Digite o nome do jogador %d: ", i + 1);
+            scanf("%s", jogadores[i].nome);
+
+            if (strlen(jogadores[i].nome) >= MAX_NOME) {
+                printf("Nome do jogador muito longo. Limite de %d caracteres.\n", MAX_NOME - 1);
+                return 1;
+            }
+
+            printf("Digite as %d pontuacoes do jogador %d, separadas por espaco: ", NUM_RODADAS, i + 1);
+            for (j = 0; j < NUM_RODADAS; j++) {
+                scanf("%d", &jogadores[i].pontuacoes[j]);
+            }
+
+            jogadores[i].pontuacaoFinal = somarPontuacoes(jogadores[i].pontuacoes, NUM_RODADAS);
+        }
+
+        qsort(jogadores, J, sizeof(struct Jogador), compararJogadores);
+
+        printf("Teste %d\n", teste);
+        for (i = 0; i < J; i++) {
+            printf("%d %d %s\n", i + 1, jogadores[i].pontuacaoFinal, jogadores[i].nome);
+        }
+
+        printf("\n");
+
+        free(jogadores);
+
+        teste++;
+    }
+
+    return 0;
+}
