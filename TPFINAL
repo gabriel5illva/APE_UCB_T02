@@ -54,11 +54,6 @@ int main() {
 
         struct Jogador *jogadores = malloc(J * sizeof(struct Jogador));
 
-        if (jogadores == NULL) {
-            printf("Erro de alocacao de memoria.\n");
-            return 1;
-        }
-
         for (i = 0; i < J; i++) {
             printf("Digite o nome do jogador %d: ", i + 1);
             scanf("%s", jogadores[i].nome);
