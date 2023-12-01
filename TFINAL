@@ -52,7 +52,10 @@ int main() {
 
             printf("Digite as 12 pontuacoes do jogador %d, separadas por espaco: ", i + 1);
             for (j = 0; j < 12; j++) {
-                scanf("%d", &jogadores[i].pontuacoes[j]);
+                if(scanf("%d", &jogadores[i].pontuacoes[j]) != 1) {
+                    printf("Erro: você deve digitar exatamente 12 pontuacoes.\n");
+                    return 1;
+                }
             }
 
             jogadores[i].pontuacaoFinal = somarPontuacoes(jogadores[i].pontuacoes, 12);
